@@ -1,0 +1,72 @@
+/// Prime number helpers: test, next prime, and list up to a small limit.
+
+func is_prime(n: Int) -> Bool
+    example 2 -> true
+    example 3 -> true
+    example 4 -> false
+    example 17 -> true
+    example 1 -> false
+    example 0 -> false
+    example -5 -> false
+    if n <= 1 then
+        return false
+    end if
+    if n == 2 then
+        return true
+    end if
+    if n % 2 == 0 then
+        return false
+    end if
+    var d: Int = 3
+    while d * d <= n do
+        if n % d == 0 then
+            return false
+        end if
+        d = d + 2
+    end while
+    return true
+end func
+
+func next_prime(n: Int) -> Int
+    example 1 -> 2
+    example 2 -> 2
+    example 10 -> 11
+    example 14 -> 17
+    example 97 -> 97
+    var cand: Int = n
+    if cand < 2 then
+        cand = 2
+    end if
+    while is_prime(cand) == false do
+        cand = cand + 1
+    end while
+    return cand
+end func
+
+func primes_up_to(limit: Int) -> List[Int]
+    example 10 -> [2, 3, 5, 7]
+    example 1 -> []
+    example 2 -> [2]
+    example 20 -> [2, 3, 5, 7, 11, 13, 17, 19]
+    var result: List[Int] = []
+    var i: Int = 2
+    while i <= limit do
+        if is_prime(i) then
+            result = append(result, i)
+        end if
+        i = i + 1
+    end while
+    return result
+end func
+
+@untested("entry point")
+func main() -> String
+    let primes: List[Int] = primes_up_to(50)
+    let nxt: Int = next_prime(90)
+    let p97: Bool = is_prime(97)
+    var p97s: String = "false"
+    if p97 then
+        p97s = "true"
+    end if
+    return "primes_up_to(50) count=" + to_string(length(primes)) + " next_prime(90)=" + to_string(nxt) + " is_prime(97)=" + p97s
+end func
